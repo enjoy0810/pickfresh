@@ -1,0 +1,341 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Address {
+  city: String!
+  country: String!
+  state: String!
+  street: String!
+  zipcode: String!
+}
+
+input AddressInput {
+  city: String!
+  country: String!
+  state: String!
+  street: String!
+  zipcode: String!
+}
+
+type AuthResponse {
+  auth: AuthToken!
+  user: User!
+}
+
+type AuthToken {
+  expiresIn: Float!
+  token: String!
+}
+
+input BankInput {
+  account_holder_name: String!
+  account_holder_type: String!
+  account_number: String!
+  country: String
+  currency: String
+  routing_number: String!
+}
+
+input CreateFeedbackDto {
+  comment: String
+  flavor: Int!
+  freshness: Int!
+  pickupExperience: Int!
+  productId: String
+  sellerId: String
+}
+
+input CreateOrderInput {
+  items: [CreateOrderItemInput!]!
+  sellerId: String!
+}
+
+input CreateOrderItemInput {
+  productId: String!
+  quantity: Int!
+}
+
+input CreateProductInput {
+  address: AddressInput
+  bagsAvailable: Float
+  category: String!
+  description: String!
+  name: String!
+  photos: [Upload!]!
+  pickupSchedule: PickupScheduleInput!
+  price: Float!
+  quantity: Float!
+  seller: String!
+  size: String!
+  subCategory: String!
+  type: String!
+  unit: String!
+  variety: String!
+}
+
+input CreateStoreInput {
+  address: AddressInput
+  description: String
+  name: String!
+  ownerFullName: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DeleteUserInput {
+  id: ID!
+}
+
+type Feedback {
+  comment: String
+  createdAt: DateTime
+  flavor: Int!
+  freshness: Int!
+  id: ID!
+  pickupExperience: Int!
+  productId: String
+  sellerId: String
+  updatedAt: DateTime
+}
+
+type Mutation {
+  addBankAccount(bankInfo: BankInput!, sellerId: String!): Boolean!
+  createFeedback(input: CreateFeedbackDto!): Feedback!
+  createOrder(buyerId: String!, input: CreateOrderInput!): Order!
+  createPaymentIntent(amount: Float!, currency: String!, sellerId: String!): String!
+  createProduct(input: CreateProductInput!): Product!
+  createStore(input: CreateStoreInput!): Store!
+  deleteProduct(id: String!): Boolean!
+  deleteStore(id: String!): Boolean!
+  deleteUser(input: DeleteUserInput!): Boolean!
+  registerUser(input: RegisterUserInput!): AuthResponse!
+  resetPassword(input: ResetPasswordInput!): Boolean!
+  resetStripeAccount(sellerId: String!): Boolean!
+  signInByEmailAndPassword(input: SignInInput!): AuthResponse!
+  signInWithFirebase(idToken: String!): AuthResponse!
+  updateCurrentUser(input: UpdateUserInput!): User
+  updateOrderStatus(input: UpdateOrderStatusInput!): Order!
+  updateProduct(id: ID!, input: UpdateProductInput!): Product!
+  updateStore(input: UpdateStoreInput!): Store
+  updateUser(input: UpdateUserInput!): User
+  validateToken(input: ValidateTokenInput!): User!
+  withdraw(amount: Int!, sellerId: String!): Boolean!
+  withdrawToBank(input: WithdrawInput!): User!
+}
+
+type Notification {
+  createdAt: DateTime!
+  id: String!
+  message: String!
+  referenceId: String!
+  title: String!
+  type: String!
+  userId: String!
+}
+
+type Order {
+  buyer: User!
+  createdAt: DateTime!
+  id: String!
+  items: [OrderItem!]!
+  seller: User!
+  status: OrderStatus!
+  updatedAt: DateTime!
+}
+
+type OrderItem {
+  id: String!
+  order: Order!
+  price: Float!
+  product: Product!
+  quantity: Int!
+  totalPrice: Float!
+}
+
+"""The current status of an order"""
+enum OrderStatus {
+  COMPLETE
+  PENDING
+}
+
+type PickupSchedule {
+  date: String!
+  endTime: String!
+  repeat: String!
+  startTime: String!
+}
+
+input PickupScheduleInput {
+  date: String!
+  endTime: String!
+  repeat: String!
+  startTime: String!
+}
+
+type Product {
+  address: Address
+  bagsAvailable: Float
+  category: String
+  createdAt: DateTime
+  description: String
+  id: ID!
+  name: String
+  photos: [String!]
+  pickupSchedule: PickupSchedule
+  price: Float!
+  quantity: Float
+  seller: String
+  size: String
+  subCategory: String
+  type: String
+  unit: String
+  updatedAt: DateTime
+  variety: String
+}
+
+type Query {
+  buyerOrders(buyerId: String!): [Order!]!
+  feedback(feedbackId: String!): Feedback
+  feedbacks(productId: String, sellerId: String): [Feedback!]!
+  getBalance: Float!
+  myStore: Store
+  notifications(userId: String!): [Notification!]!
+  orderById(orderId: String!): Order
+
+  """Get Privacy Policy as HTML"""
+  privacyPolicy: String!
+  product(id: String!): Product
+  products: [Product!]!
+  profile: User
+  sellerOrders(sellerId: String!): [Order!]!
+  store(id: String!): Store
+  stores: [Store!]!
+
+  """Get Terms and Conditions as HTML"""
+  termsAndConditions: String!
+  user(input: UserQueryInput!): User
+}
+
+input RegisterUserInput {
+  email: String!
+  password: String!
+}
+
+input ResetPasswordInput {
+  email: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+type Store {
+  address: Address
+  createdAt: DateTime
+  description: String
+  id: ID!
+  name: String!
+  ownerFullName: String!
+  ownerId: String!
+  updatedAt: DateTime
+}
+
+type Subscription {
+  notificationReceived(userId: String!): Notification!
+}
+
+input UpdateOrderStatusInput {
+  orderId: String!
+  status: OrderStatus!
+}
+
+input UpdateProductInput {
+  address: AddressInput
+  bagsAvailable: Float
+  category: String
+  description: String
+  name: String
+  photos: [Upload!]
+  pickupSchedule: PickupScheduleInput
+  price: Float!
+  quantity: Float
+  seller: String
+  size: String
+  subCategory: String
+  type: String
+  unit: String
+  variety: String
+}
+
+input UpdateStoreInput {
+  address: AddressInput
+  description: String
+  id: ID!
+  name: String
+  ownerFullName: String
+}
+
+input UpdateUserInput {
+  address: AddressInput
+  balance: Float
+  dateOfBirth: DateTime
+  email: String
+  firebaseUid: String
+  firstName: String
+  gender: String
+  id: ID!
+  lastName: String
+  password: String
+  phoneNumber: String
+  storeAddress: AddressInput
+  storeDescription: String
+  storeName: String
+  storeOwnerFullName: String
+  stripeAccountId: String
+  transactionCount: Int
+  userType: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type User {
+  address: Address
+  balance: Float
+  createdAt: DateTime!
+  dateOfBirth: DateTime
+  deletedAt: DateTime
+  email: String!
+  firebaseUid: String
+  firstName: String
+  gender: String
+  id: ID!
+  lastName: String
+  password: String
+  phoneNumber: String
+  storeAddress: Address
+  storeDescription: String
+  storeName: String
+  storeOwnerFullName: String
+  stripeAccountId: String
+  transactionCount: Int
+  updatedAt: DateTime
+  userType: String
+}
+
+input UserQueryInput {
+  id: ID!
+}
+
+input ValidateTokenInput {
+  token: String!
+}
+
+input WithdrawInput {
+  amount: Float!
+}

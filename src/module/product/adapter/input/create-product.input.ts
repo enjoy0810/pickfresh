@@ -36,7 +36,7 @@ export class CreateProductInput {
   type: string;
 
   @Field()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   variety: string;
 

@@ -34,8 +34,8 @@ export class ProductUsecase implements IProductUsecase {
     if (!photos || photos.length === 0) {
       throw new BadRequestException('At least one image is required.');
     }
-    if (photos.length > 3) {
-      throw new BadRequestException('Maximum 3 images allowed.');
+    if (photos.length > 5) {
+      throw new BadRequestException('Maximum 5 images allowed.');
     }
 
     // Upload photos
@@ -83,8 +83,8 @@ export class ProductUsecase implements IProductUsecase {
 
     // Handle photo updates
     if (photos && photos.length > 0) {
-      if (photos.length > 3) {
-        throw new BadRequestException('Maximum 3 images allowed.');
+      if (photos.length > 5) {
+        throw new BadRequestException('Maximum 5 images allowed.');
       }
 
       const uploadedImagePaths: string[] = [];

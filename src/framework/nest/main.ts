@@ -32,7 +32,7 @@ async function bootstrap() {
       prefix: '/uploads/',
     });
 
-    app.use(graphqlUploadExpress({ maxFileSize: 5_000_000, maxFiles: 3 }));
+    app.use(graphqlUploadExpress({ maxFileSize: 5_000_000, maxFiles: 5 }));
 
     const port = process.env.PORT || '8080';
     logger.log(`Server is running on port ${port}`);

@@ -49,7 +49,7 @@ export class UpdateProductInput {
   description?: string;
 
   @Field(() => [GraphQLUpload], { nullable: true })
-  @ArrayMaxSize(3)
+  @ArrayMaxSize(5)
   photos?: Promise<any>[];
 
   @Field(() => Float)

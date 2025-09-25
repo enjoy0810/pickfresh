@@ -46,7 +46,7 @@ export class CreateProductInput {
   description: string;
 
   @Field(() => [GraphQLUpload])
-  @ArrayMaxSize(3)
+  @ArrayMaxSize(5)
   photos: Promise<any>[]; // <-- this is how you're using it, and it's valid
 
   @Field(() => Float)
